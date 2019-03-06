@@ -1,3 +1,7 @@
+//You will need this sheet https://docs.google.com/spreadsheets/d/1BK82EnJgDU7dnUCxli2T8Fvbc5rN2cKXAj7yvgcHIDw/edit?usp=sharing
+//
+//
+
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
   ui.createMenu("send Email").addItem("Send New", "sendNew").addToUi();
