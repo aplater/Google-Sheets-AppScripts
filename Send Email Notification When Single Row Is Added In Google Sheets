@@ -1,0 +1,40 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu("send Email").addItem("Send New", "sendNew").addToUi();
+}
+
+function sendNew(){
+  var dataSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("data");
+  var templetSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("template");
+  var templateSubject = templetSheet.getRange(1, 2).getValue();
+  var templateBody = templetSheet.getRange(2, 2).getValue();
+  
+  //These values align with the data import sheet and all values will align with what is in body
+  
+  for (var i =6; i<= dataSheet.getLastRow(); i++){
+    var name = dataSheet.getRange(i, 1).getValue();
+    var email = dataSheet.getRange(i, 2).getValue();
+    var phone = dataSheet.getRange(i, 3).getValue();
+    var created = dataSheet.getRange(i, 4).getValue();
+    var source = dataSheet.getRange(i, 5).getValue();
+    var service = dataSheet.getRange(i, 6).getValue();
+    var status = dataSheet.getRange(i, 7).getValue();
+    
+  //You can adjust the template as much as you want, align with the "template sheet"
+    
+    var subject = templateSubject.replace("<<Name>>", name);
+    var body = templateBody.replace("<<Name>>", name);
+    body = body.replace("<<Email>>", email);
+    body = body.replace("<<Phone>>", phone);
+    body = body.replace("<<Created>>", created);
+    body = body.replace("<<Source>>", source);
+    body = body.replace("<<Service>>", service);
+    
+   //your email goes in below 'youremail@test.com' replace with your own
+    
+    if (status == ""){
+      MailApp.sendEmail('youremail@test.com', subject, body);
+      dataSheet.getRange(i,7).setValue("Email Sent");
+    } 
+  }
+}
